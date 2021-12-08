@@ -23,9 +23,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
-class GamePane extends JComponent implements ActionListener {
-
-    static int rows, cols;
+class GamePane extends JPanel implements ActionListener
+{
+    static int rows,cols;
     static int scr[][];			//scr or(screen) array holds the information about puyos to display
     Node tetris;				//Formation of Tetris is checked using this object
     Timer timer, timer1, timer2, anim_timer;	//different timers used for animation of puyos
