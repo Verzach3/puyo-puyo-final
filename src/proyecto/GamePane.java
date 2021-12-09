@@ -49,9 +49,6 @@ class GamePane extends JPanel implements ActionListener
     boolean levelflag;
     int contador = 0;
     int puntos = 0;
-    int intentos = 0;
-    int scorep = 0;
-    int posicion = 0;
     Sound musicaNivel;
 
     public GamePane(int l, int r, int c) {
@@ -82,14 +79,14 @@ class GamePane extends JPanel implements ActionListener
                     if (!started) {
                         //     reproducirPorNivel();
                         //      musicaNivel.play();
-                        intentos++;
+                      
                         setDelays();
                         timer.start();
                         started = true;
                     }
                     if (gameOver) {
-                        scoreBoard();
-                        //    musicaNivel.stop();
+
+                        //musicaNivel.stop();
                         init();
                         generatePuyos();
                         ;
@@ -154,7 +151,7 @@ class GamePane extends JPanel implements ActionListener
                     Speed(false);
                 }
                 if (e.getKeyCode() == KeyEvent.VK_C) {
-                    LeerPuntajes();
+                    
                 } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 
                     //if game is already paused then exit the game, other wise pause the game
@@ -282,32 +279,7 @@ class GamePane extends JPanel implements ActionListener
         }
     }
 
-    File archivo = new File("Puntajes//scoreboard.txt");
-
-    public String LeerPuntajes() {
-        ScoreBoard sc = new ScoreBoard();
-
-        String combinar = "";
-        try {
-            String lineaActual = "";
-
-            BufferedReader entrada = new BufferedReader(new FileReader(archivo));
-            while ((lineaActual = entrada.readLine()) != null) {
-                StringTokenizer tokens = new StringTokenizer(lineaActual, "");
-                while (tokens.hasMoreTokens()) {
-                    posicion++;
-                    combinar += "---> Posicion N#" + posicion + " " + tokens.nextToken() + " Puntos" + "\n";
-                    sc.areaPuntaje.setText(combinar);
-                }
-                sc.setVisible(true);
-            }
-        } catch (FileNotFoundException ex) {
-            System.err.println("Error");
-        } catch (IOException ex) {
-            Logger.getLogger(GamePane.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return combinar;
-    }
+    
 
     /*   
     public void reproducirPorNivel() {
@@ -556,24 +528,7 @@ class GamePane extends JPanel implements ActionListener
         //number of chains formed by puyos at a single time
     }
 
-    public void scoreBoard() { //Sistema de puntos almacena en un documento de texto
-        //Los puntajes alcanzados
-        PrintWriter data;
-        if (archivo.exists()) {
-            try {
-                FileWriter scoreBoard = new FileWriter(archivo, true);
-                data = new PrintWriter(scoreBoard);
-                data.print(String.valueOf(score));
-                data.close();
-                scoreBoard.close();
-            } catch (Exception ex) {
-                System.err.println("Error, " + ex);
-            }
-
-        } else {
-            System.err.println("Error,el archivo no existe!");
-        }
-    }
+    
 
     public void fillVacated() //vacated places formed by removed puyos are filled with the other puyos by the law of gravity
     {
