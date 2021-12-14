@@ -25,8 +25,8 @@ public class PuyoPuyo extends PuyoEngine
         cols=6;			// Can be set to any value, game rows*cols depends on this value
         rows=cols*2;
         screenSize= Toolkit.getDefaultToolkit().getScreenSize();
-        width=1500;
-        height=918;
+        width=1250;
+        height=730;
         puyo_len=(width/8)*2/cols;			
         gp=new GamePane(puyo_len,rows,cols);
         add(gp);
@@ -35,7 +35,7 @@ public class PuyoPuyo extends PuyoEngine
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addWindowStateListener(e -> System.out.println("Width: " + this.getWidth() + " Height: " +this.getHeight()));
-        setSize(566, 892);
+        setSize(566, 732);
         loop();
 
     }

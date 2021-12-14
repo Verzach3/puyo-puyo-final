@@ -1,5 +1,9 @@
 package proyecto;
 
+import proyecto.PaintComponents.GameOverComponent;
+import proyecto.PaintComponents.NotStartedComponent;
+import proyecto.PaintComponents.PausedComponent;
+
 import javax.swing.*;
 import java.applet.Applet;
 import java.applet.AudioClip;
@@ -79,7 +83,7 @@ class GamePane extends JPanel implements ActionListener
                     if (!started) {
                         //     reproducirPorNivel();
                         //      musicaNivel.play();
-                      
+
                         setDelays();
                         timer.start();
                         started = true;
@@ -151,7 +155,7 @@ class GamePane extends JPanel implements ActionListener
                     Speed(false);
                 }
                 if (e.getKeyCode() == KeyEvent.VK_C) {
-                    
+
                 } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 
                     //if game is already paused then exit the game, other wise pause the game
@@ -279,9 +283,9 @@ class GamePane extends JPanel implements ActionListener
         }
     }
 
-    
 
-    /*   
+
+    /*
     public void reproducirPorNivel() {
 
         if (level == 0) {
@@ -528,7 +532,7 @@ class GamePane extends JPanel implements ActionListener
         //number of chains formed by puyos at a single time
     }
 
-    
+
 
     public void fillVacated() //vacated places formed by removed puyos are filled with the other puyos by the law of gravity
     {
@@ -777,56 +781,16 @@ class GamePane extends JPanel implements ActionListener
 
         if (!started)//if game is not started display the information
         {
-            g2.setPaint(Color.yellow);
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8f));
-            g2.fill(new Rectangle(0, rows * len / 4, (cols + 3) * len, (rows + 1) * len / 2));
-            g2.setPaint(Color.blue);
-            g2.setFont(new Font("Ariel", Font.PLAIN, len / 2));
-            g2.drawString("  Nivel: " + level, len * 3, rows * len / 3);
-            g2.setFont(new Font("Ariel", Font.PLAIN, len / 3));
-            g2.drawString("Use <↑> y <↓> para cambiar el nivel del juego", len / 4, (rows + 2) * len / 3);
-            g2.setFont(new Font("Ariel", Font.BOLD, len / 3));
-            g2.drawString("Precione <Enter> para iniciar el juego", len, rows * len / 2);
-            g2.setFont(new Font("Ariel", Font.PLAIN, len / 3));
-            g2.drawString("           Use las flechas para mover el puyo.", 0, (rows + 1) * len / 2);
-            g2.drawString("Puedes rotar la posición el puyo usando las flechas.", len, (rows + 2) * len / 2);
-            g2.drawString("      Hay puntos cada vez que hay 4 puyos del mismo color", len / 3, (rows + 3) * len / 2);
-            g2.drawString("Precione <p> para pausar el juego", len, (rows + 5) * len / 2);
-            g2.drawString("Precione <Escape> para salir del juego", len, (rows + 6) * len / 2);
-            g2.drawString("           Para ver los puntajes preciona <C>", 0, (rows + 7) * len / 2);
+            new NotStartedComponent(g2, alpha, alpha1, len, cols, rows, level);
         }
         if (gameOver)//if game is over dim the game by using alpha composite and display the information
         {
-            g2.setPaint(Color.white);
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
-            if (alpha < 0.9f) {
-                alpha = alpha + 0.02f;//to build the animation of alpha blending
-            }
-            g2.fill(new Rectangle(0, 0, len * cols, len * rows));
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
-            g2.setPaint(Color.red);
-            g2.setFont(new Font("Ariel", Font.PLAIN, len / 2));
-            g2.drawString("Game Over", len * 3 / 2, rows * len / 2);
-            g2.setPaint(Color.blue);
-            g2.setFont(new Font("Ariel", Font.PLAIN, len / 3));
-            g2.drawString("Precione <Enter> para reiniciar el juego", len / 2, (rows + 1) * len / 2);
+            new GameOverComponent(g2, alpha, alpha1, len, cols, rows);
         }
         if (paused)//if game is paused dim the game by using alpha composite and display the information
         {
-            g2.setPaint(Color.white);
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha1));
-            if (alpha1 < 0.9f) {
-                alpha1 = alpha1 + 0.02f;
-            }
-            g2.fill(new Rectangle(0, 0, len * cols, len * rows));
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
-            g2.setPaint(Color.blue);
-            g2.setFont(new Font("Ariel", Font.PLAIN, len / 2));
-            g2.drawString("Juego Pausado", len * 3 / 2, rows * len / 2);
-            g2.setFont(new Font("Ariel", Font.PLAIN, len / 3));
-            g2.drawString("   Precione <p> para volver al juego", len / 2, (rows + 1) * len / 2);
-            g2.drawString("  Precione <Escape> para salir del juego", len / 2, (rows + 2) * len / 2);
-            g2.drawString(" Precione <Enter> para reiniciar el juego", len / 2, (rows + 3) * len / 2);
+            new PausedComponent(g2, alpha, alpha1, len, cols, rows);
+
         }
     }
 }
