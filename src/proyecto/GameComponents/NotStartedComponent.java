@@ -6,7 +6,7 @@ public class NotStartedComponent {
 
     public NotStartedComponent(Graphics2D g2, float alpha, float alpha1, int len, int cols, int rows, int level){
         g2.setPaint(Color.yellow);
-        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8f));
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8f));//Aplica transparencia
         g2.fill(new Rectangle(0, rows * len / 4, (cols + 3) * len, (rows + 1) * len / 2));
         g2.setPaint(Color.blue);
         g2.setFont(new Font("Ariel", Font.PLAIN, len / 2));

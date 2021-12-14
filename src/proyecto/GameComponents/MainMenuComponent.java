@@ -11,10 +11,15 @@ public class MainMenuComponent{
 
 
     public void paintComponent(Graphics2D g){
+        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+        g.setColor(Color.black);
         g.fillRect(0, 150, 566, normalHeight);
+        g.drawString("Hola", 10, 10);
 
 
     }
+
+
 
     public boolean isActive() {
         return isActive;

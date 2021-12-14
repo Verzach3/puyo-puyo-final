@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  *
@@ -39,42 +41,13 @@ public class PuyoPuyo extends PuyoEngine
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(484, 714);
 
-
-        addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                if (menuComponent.isActive()){
-                    System.out.println("Hola");
-                }
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-
-            }
-        });
+        debugKeys();
 
         loop();
 
     }
 
-    BarComponent barComponent = new BarComponent();
-    MainMenuComponent menuComponent = new MainMenuComponent();
-    public void paint(Graphics g){
-        super.paint(g);
-        Graphics2D g2D = (Graphics2D) g;
-        menuComponent.paintComponent(g2D);
 
-
-
-
-
-    }
 
     public void update(){
 
@@ -82,8 +55,17 @@ public class PuyoPuyo extends PuyoEngine
 
     public static void main(String args[]) {
         System.out.println("INICIANDO PUYO PUYO......");
-        JFrame.setDefaultLookAndFeelDecorated(false);
         new PuyoPuyo();
+    }
+
+    public void debugKeys(){
+        addWindowFocusListener(new WindowAdapter() {
+            @Override
+            public void windowLostFocus(WindowEvent e) {
+                super.windowLostFocus(e);
+                System.out.println(gp.getWidth());
+            }
+        });
     }
   
 }

@@ -1,15 +1,10 @@
 package proyecto;
 
-import proyecto.GameComponents.GameOverComponent;
-import proyecto.GameComponents.NotStartedComponent;
-import proyecto.GameComponents.PausedComponent;
+import proyecto.GameComponents.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.util.Random;
 
 class GamePane extends JPanel implements ActionListener
@@ -192,6 +187,7 @@ class GamePane extends JPanel implements ActionListener
         timer2 = new Timer(500, this);
         anim_timer = new Timer(50, this);
         anim_timer.start();			//starting the timer
+        customInputs();
     }
 
     public void loadImages()//loading images into the image array and pipe objects
@@ -682,6 +678,8 @@ class GamePane extends JPanel implements ActionListener
     }
 
 
+    BarComponent barComponent = new BarComponent();
+    MainMenuComponent menuComponent = new MainMenuComponent();
     public void paint(Graphics g) {
         g.setColor(Color.white); //Graphics principal, NO MOVER
         Graphics2D g2 = (Graphics2D) g;// Graphics2D principal, NO MOVER
@@ -790,5 +788,26 @@ class GamePane extends JPanel implements ActionListener
             new PausedComponent(g2, alpha, alpha1, len, cols, rows);
 
         }
+        
+        //menuComponent.paintComponent(g2);
+    }
+
+    public void customInputs(){
+        addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
     }
 }
