@@ -10,11 +10,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Random;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-class GamePane extends JPanel implements ActionListener
-{
-    static int rows,cols;
+class GamePane extends JPanel implements ActionListener {
+
+    static int rows, cols;
     static int scr[][];			//scr or(screen) array holds the information about puyos to display
     Node tetris;				//Formation of Tetris is checked using this object
     Timer timer, timer1, timer2, anim_timer;	//different timers used for animation of puyos
@@ -38,6 +48,7 @@ class GamePane extends JPanel implements ActionListener
     boolean levelflag;
     int contador = 0;
     int puntos = 0;
+    int posicion = 0;
     Sound musicaNivel;
 
     public GamePane(int l, int r, int c) {
@@ -128,19 +139,10 @@ class GamePane extends JPanel implements ActionListener
                 }
 
                 if (e.getKeyCode() == KeyEvent.VK_B) {
-                    eliminarPuyos();
+                    Removepuyosrandomly();
                 }
-
-                if (e.getKeyCode() == KeyEvent.VK_N) {
-
-                    eliminarPuyosAleatoriamente();
-                }
-
                 if (e.getKeyCode() == KeyEvent.VK_S) {
                     Speed(false);
-                }
-                if (e.getKeyCode() == KeyEvent.VK_C) {
-
                 } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 
                     //if game is already paused then exit the game, other wise pause the game
@@ -212,63 +214,49 @@ class GamePane extends JPanel implements ActionListener
 
         if (ve) {
             contador++;
-        } else if (!ve) {
+        } else {
+
             contador--;
         }
         for (int i = 0; i <= contador; i++) {
             delay += 20 * (4 - i / 5);
             delay1 += 4 - i / 5;
         }
-
         timer.setDelay(1075 - delay);
         anim_timer.setDelay(52 - delay1);
         anim_timer.restart();
     }
-
-    public void eliminarPuyos() {
-        int flag = 0;
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (scr[i][j] > 0) {
-                    count = 3;
-                    tetris = new Node(i, j);
-                    chkForTetris(i, j);
-                    if (count >= 0) {
-                        eliminarTetrisSinPuntos();
-
-                    }
-                }
-            }
-        }
-
-    }
-
-    public void eliminarTetrisSinPuntos() {
-        Node n = tetris;
-        while (n != null) {
-            scr[n.getX()][n.getY()] = 0;
-            n = n.getPrev();
-        }
-
-    }
-
-    public void eliminarPuyosAleatoriamente() {
+    
+    
+    //Este metodo se encarga de eliminar los puyos aleatoriamente de una columna completamente
+    public int Removepuyosrandomly() {
         Node n2 = tetris;
+        int random = (int) (Math.random() * 5); //Genera un numero de 0 a 5 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 count = 3;
-                chkForTetris(i, j);
-                tetris = new Node(i, j);
 
-                if (count >= 0) {
+                tetris = new Node(i, j);  //1 borra 4 puyos en X, 2 borra 3 puyos en X, 3 borra 2 puyos en X,4 borra 1 puyo en X
 
-                    eliminarTetrisSinPuntos();
+                if (j > 4) {
+                    RemovePuyos(random);    //Llama el metodo RemovePuyos el cual se encarga de eliminar los puyos por
+                                            //medio de un numero recibido de 0 a 5, cada numero indica una columna.
+
                 }
+
             }
         }
+        return random;
     }
-
-
+    
+    //Este metodo recibe un numero random el cual es la columna de la cual va se eliminada con los puyos
+    public void RemovePuyos(int random) {
+        Node n = tetris;
+        while (n != null) {
+            scr[n.getX()][random] = 0; //Recibe un numero random de 0 a 5, para eliminar esa columna seleccionada
+            n = n.getPrev();
+        }
+    }
 
     /*
     public void reproducirPorNivel() {
@@ -518,8 +506,6 @@ class GamePane extends JPanel implements ActionListener
         //number of chains formed by puyos at a single time
     }
 
-
-
     public void fillVacated() //vacated places formed by removed puyos are filled with the other puyos by the law of gravity
     {
         for (int i = rows - 2; i >= 0; i--) {
@@ -680,6 +666,51 @@ class GamePane extends JPanel implements ActionListener
         }
         repaint();
     }
+    
+    File archivo = new File("Puntajes//scoreboard.txt");
+
+    public String ReadScore() {
+        String combinar = "";
+        try {
+            String lineaActual = "";
+
+            BufferedReader entrada = new BufferedReader(new FileReader(archivo));
+            while ((lineaActual = entrada.readLine()) != null) {
+                StringTokenizer tokens = new StringTokenizer(lineaActual, "");
+                while (tokens.hasMoreTokens()) {
+                    posicion++;
+                    combinar += "---> Posicion N#" + posicion + " " + tokens.nextToken() + " Puntos" + "\n";
+                }
+            }
+        } catch (FileNotFoundException ex) {
+            System.err.println("Error");
+        } catch (IOException ex) {
+            Logger.getLogger(GamePane.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return combinar;
+    }
+    
+    public void scoreBoard() { //Sistema de puntos almacena en un documento de texto
+        //Los puntajes alcanzados
+        
+        //TODO falta implementar el score de GamePane para que lea los puntajes
+        PrintWriter data;
+        int score = 0;
+        if (archivo.exists()) {
+            try {
+                FileWriter scoreBoard = new FileWriter(archivo, true);
+                data = new PrintWriter(scoreBoard);
+                data.print(String.valueOf(score));
+                data.close();
+                scoreBoard.close();
+            } catch (Exception ex) {
+                System.err.println("Error, " + ex);
+            }
+
+        } else {
+            System.err.println("Error,el archivo no existe!");
+        }
+    }
 
 
     public void paint(Graphics g) {
@@ -783,6 +814,7 @@ class GamePane extends JPanel implements ActionListener
         {
             //Paints the game over
             new GameOverComponent(g2, alpha, alpha1, len, cols, rows);
+            
         }
         if (paused)//if game is paused dim the game by using alpha composite and display the information
         {

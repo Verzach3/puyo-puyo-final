@@ -37,9 +37,15 @@ class Node
     {
         return prevnode;
     }
+    public void setX(){
+        
+    }
     public int getX()
     {
         return x;
+    }
+    public void setY(){
+        
     }
     public int getY()
     {
