@@ -1,4 +1,4 @@
-package proyecto.PaintComponents;
+package proyecto.GameComponents;
 
 import java.awt.*;
 

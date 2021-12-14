@@ -1,31 +1,16 @@
 package proyecto;
 
-import proyecto.PaintComponents.GameOverComponent;
-import proyecto.PaintComponents.NotStartedComponent;
-import proyecto.PaintComponents.PausedComponent;
+import proyecto.GameComponents.GameOverComponent;
+import proyecto.GameComponents.NotStartedComponent;
+import proyecto.GameComponents.PausedComponent;
 
 import javax.swing.*;
-import java.applet.Applet;
-import java.applet.AudioClip;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Random;
-import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.table.DefaultTableModel;
 
 class GamePane extends JPanel implements ActionListener
 {
@@ -93,7 +78,7 @@ class GamePane extends JPanel implements ActionListener
                         //musicaNivel.stop();
                         init();
                         generatePuyos();
-                        ;
+
                         started = false;
                     }
                     if (paused) {
@@ -104,7 +89,7 @@ class GamePane extends JPanel implements ActionListener
                     repaint();
                 } else if (e.getKeyCode() == KeyEvent.VK_LEFT && !reached && !paused)//move puyos left if each puyo not reached to ground
                 {
-
+                    System.out.println("Left");
                     moveLeft();
                 } else if (e.getKeyCode() == KeyEvent.VK_RIGHT && !reached && !paused) {
 
@@ -133,7 +118,7 @@ class GamePane extends JPanel implements ActionListener
                         alpha1 = 0.0f;
                         timer.start();		//game is resumed
                     } else {
-                        ;
+
                         timer.stop();
                         paused = true;		//game is paused
                     }
@@ -175,7 +160,7 @@ class GamePane extends JPanel implements ActionListener
         setFocusable(true);			//to set the keyboard focus on this game pane
     }
 
-    public GamePane() {
+    public GamePane(){
 
     }
 
@@ -225,9 +210,9 @@ class GamePane extends JPanel implements ActionListener
     public void Speed(Boolean ve) {
         int delay = 0, delay1 = 0;
 
-        if (ve == true) {
+        if (ve) {
             contador++;
-        } else if (ve == false) {
+        } else if (!ve) {
             contador--;
         }
         for (int i = 0; i <= contador; i++) {
@@ -323,6 +308,7 @@ class GamePane extends JPanel implements ActionListener
 
     }
      */
+
     public void setDelays() {
         int delay = 0, delay1 = 0;
         for (int i = 0; i <= level; i++)//to set the delays depending on the level
@@ -695,10 +681,12 @@ class GamePane extends JPanel implements ActionListener
         repaint();
     }
 
-    public void paint(Graphics g) {
 
-        //Probando Colores por nivel es algo random xd no es que vaya ser asi jsjssj
-        g.setColor(Color.white);
+    public void paint(Graphics g) {
+        g.setColor(Color.white); //Graphics principal, NO MOVER
+        Graphics2D g2 = (Graphics2D) g;// Graphics2D principal, NO MOVER
+
+        //Probando Colores por nivel es algo random xd no es que vaya ser asi jsjssj ATT: Kahyberth
         if (level == 2) {
 
             g.setColor(Color.BLACK);
@@ -716,79 +704,89 @@ class GamePane extends JPanel implements ActionListener
             }
 
         }
-        g.fillRect(0, 0, len * cols, len * rows);//background fill with white color
-        g.setColor(Color.black);
-        g.fillRect(len * cols, 0, len * 3, len * rows);//Score board is filled with black color
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        //designing score board with gradient colors as borders
-        g2.setPaint(new GradientPaint(cols * len, 0, new Color(50, 50, 50), cols * len + len / 2, 0, new Color(200, 200, 200), false));
-        g2.fill(new Rectangle(cols * len, 0, len / 2, rows * len));
-        g2.setPaint(new GradientPaint((cols + 2) * len + len / 2, 0, new Color(200, 200, 200), (cols + 3) * len, 0, new Color(50, 50, 50), false));
-        g2.fill(new Rectangle((cols + 2) * len + len / 2, 0, len / 2, rows * len));
-        g2.setPaint(Color.white);
-        //white background for next coming puyos display
-        g.fill3DRect((cols + 3 / 2) * len, len, len, len * 2, true);
-        //The next coming puyos showned or drawn here
-        g.drawImage(img[a / 2], (cols + 3 / 2) * len, len, len, len, null);
-        g.drawImage(img[b / 2], (cols + 3 / 2) * len, len * 2, len, len, null);
-        //Score board designed with 3 rectangled as backgrounds for
-        //Level and Number of pices and Total Score
-        g.fill3DRect((cols) * len + len / 2, (rows + 1) * len / 2 - 5, len * 2, len - 2, true);
-        g.fill3DRect((cols) * len + len / 2, (rows + 1) * len / 2 + len - 5, len * 2, len - 2, true);
-        g.fill3DRect((cols) * len + len / 2, (rows + 1) * len / 2 + 2 * len - 5, len * 2, len, true);
-        g2.setPaint(Color.black);
-        //Font for the text to be display
-        g2.setFont(new Font("Ariel", Font.PLAIN, len / 3));
-        g2.drawString("Level: " + level, (cols) * len + len / 2, rows * len / 2 + len);
-        g2.drawString("pieces: " + pieces, (cols) * len + len / 2, rows * len / 2 + 2 * len);
-        g2.drawString("Score:" + score, (cols) * len + len / 2, rows * len / 2 + 3 * len);
-        //back part of pipe is drawn as image
-        int p;
-        if (cols % 2 == 0) {
-            p = cols / 2;
-        } else {
-            p = cols / 2 + 1;
-        }
-        g.drawImage(bpipe, p * len - len, 0, len, len, null);
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (scr[i][j] > 0)//For all the puyos exists presently
-                {
-                    int k = scr[i][j];
-                    if (k % 2 == 0)//if puyo value is even then simply display it
-                    {
-                        k = (int) k / 2;
-                        g.drawImage(img[k - 1], j * len, i * len, len, len, null);
-                    } else {		//if puyo value is odd then add animation to it
-                        k = (int) k / 2 + 1;
-                        g.drawImage(img[k - 1], j * len, (i - 1) * len + anim, len, len, null);
-                        anim += 2;
-                        if (anim >= len) {
-                            anim = len;
-                        }
-                        if (reached && i == 2) {
-                            reached = false;
-                        }
-                    }
+        //End testing colors
 
+        //This paints the game
+        //new GameComponent(g2, alpha, alpha1, len, cols, rows, level, img, a, b, pieces, score, fpipe, bpipe, anim, reached, scr);
+
+        if(started) {
+            g2.fillRect(0, 0, len * cols, len * rows);//background fill with white color
+            g2.setColor(Color.black);
+            g2.fillRect(len * cols, 0, len * 3, len * rows);//Score board is filled with black color
+
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            //designing score board with gradient colors as borders
+            g2.setPaint(new GradientPaint(cols * len, 0, new Color(50, 50, 50), cols * len + len / 2, 0, new Color(200, 200, 200), false));
+            g2.fill(new Rectangle(cols * len, 0, len / 2, rows * len));
+            g2.setPaint(new GradientPaint((cols + 2) * len + len / 2, 0, new Color(200, 200, 200), (cols + 3) * len, 0, new Color(50, 50, 50), false));
+            g2.fill(new Rectangle((cols + 2) * len + len / 2, 0, len / 2, rows * len));
+            g2.setPaint(Color.white);
+            //white background for next coming puyos display
+            g2.fill3DRect((cols + 3 / 2) * len, len, len, len * 2, true);
+            //The next coming puyos showned or drawn here
+            g2.drawImage(img[a / 2], (cols + 3 / 2) * len, len, len, len, null);
+            g2.drawImage(img[b / 2], (cols + 3 / 2) * len, len * 2, len, len, null);
+            //Score board designed with 3 rectangled as backgrounds for
+            //Level and Number of pices and Total Score
+            g2.fill3DRect((cols) * len + len / 2, (rows + 1) * len / 2 - 5, len * 2, len - 2, true);
+            g2.fill3DRect((cols) * len + len / 2, (rows + 1) * len / 2 + len - 5, len * 2, len - 2, true);
+            g2.fill3DRect((cols) * len + len / 2, (rows + 1) * len / 2 + 2 * len - 5, len * 2, len, true);
+            g2.setPaint(Color.black);
+            //Font for the text to be display
+            g2.setFont(new Font("Ariel", Font.PLAIN, len / 3));
+            g2.drawString("Level: " + level, (cols) * len + len / 2, rows * len / 2 + len);
+            g2.drawString("pieces: " + pieces, (cols) * len + len / 2, rows * len / 2 + 2 * len);
+            g2.drawString("Score:" + score, (cols) * len + len / 2, rows * len / 2 + 3 * len);
+            //back part of pipe is drawn as image
+            int p;
+            if (cols % 2 == 0) {
+                p = cols / 2;
+            } else {
+                p = cols / 2 + 1;
+            }
+            g2.drawImage(bpipe, p * len - len, 0, len, len, null);
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    if (scr[i][j] > 0)//For all the puyos exists presently
+                    {
+                        int k = scr[i][j];
+                        if (k % 2 == 0)//if puyo value is even then simply display it
+                        {
+                            k = (int) k / 2;
+                            g2.drawImage(img[k - 1], j * len, i * len, len, len, null);
+                        } else {        //if puyo value is odd then add animation to it
+                            k = (int) k / 2 + 1;
+                            g2.drawImage(img[k - 1], j * len, (i - 1) * len + anim, len, len, null);
+                            anim += 2;
+                            if (anim >= len) {
+                                anim = len;
+                            }
+                            if (reached && i == 2) {
+                                reached = false;
+                            }
+                        }
+
+                    }
                 }
             }
+            //front part of pipe is drawn as image
+            g2.drawImage(fpipe, p * len - len, 0, len, len, null);
+            //so when the puyo are at the postion of generation we get experience of puyo coming from the pipe
         }
-        //front part of pipe is drawn as image
-        g.drawImage(fpipe, p * len - len, 0, len, len, null);
-        //so when the puyo are at the postion of generation we get experience of puyo coming from the pipe
 
-        if (!started)//if game is not started display the information
+        if (!started)//if game is not started display the information and controls
         {
+            //Paints the information
             new NotStartedComponent(g2, alpha, alpha1, len, cols, rows, level);
         }
         if (gameOver)//if game is over dim the game by using alpha composite and display the information
         {
+            //Paints the game over
             new GameOverComponent(g2, alpha, alpha1, len, cols, rows);
         }
         if (paused)//if game is paused dim the game by using alpha composite and display the information
         {
+            //Paints the paused
             new PausedComponent(g2, alpha, alpha1, len, cols, rows);
 
         }

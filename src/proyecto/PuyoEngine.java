@@ -56,6 +56,7 @@ public class PuyoEngine extends JFrame implements KeyListener, MouseListener {
         addKeyListener(this);
         addMouseListener(this);
         setUndecorated(true);
+
     }
 
 
