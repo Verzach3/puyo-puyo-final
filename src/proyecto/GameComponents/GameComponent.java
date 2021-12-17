@@ -7,6 +7,7 @@ public class GameComponent {
 
     //This class does not work with the animations
     //FIXME
+    
 
     public GameComponent(Graphics2D g2, float alpha, float alpha1, int len, int cols, int rows, int level, Image[] img, int a, int b, int pieces, int score, Image fpipe, Image bpipe, int anim, boolean reached, int[][] scr){
         g2.fillRect(0, 0, len * cols, len * rows);//background fill with white color

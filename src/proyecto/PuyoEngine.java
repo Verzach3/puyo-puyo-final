@@ -1,25 +1,14 @@
 package proyecto;
 
-import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.EventListener;
+
 
 import javax.swing.*;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Objects;
-import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 
 public class PuyoEngine extends JFrame implements KeyListener, MouseListener {
@@ -105,83 +94,24 @@ public class PuyoEngine extends JFrame implements KeyListener, MouseListener {
 
     }
 
-    public Image loadImage(String route){
-        return new ImageIcon(Objects.requireNonNull(getClass().getResource(route))).getImage();
-    }
 
-
-    public void paint(Graphics g){
-        super.paint(g);
-      // TODO document why this method is empty
-    }
 
     public void update(){
 
-
     }
     
-    File archivo = new File("Puntajes//scoreboard.txt");
-
-    public String ReadScore() {
-        String combinar = "";
-        try {
-            String lineaActual = "";
-
-            BufferedReader entrada = new BufferedReader(new FileReader(archivo));
-            while ((lineaActual = entrada.readLine()) != null) {
-                StringTokenizer tokens = new StringTokenizer(lineaActual, "");
-                while (tokens.hasMoreTokens()) {
-                    posicion++;
-                    combinar += "---> Posicion N#" + posicion + " " + tokens.nextToken() + " Puntos" + "\n";
-                }
-            }
-        } catch (FileNotFoundException ex) {
-            System.err.println("Error");
-        } catch (IOException ex) {
-            Logger.getLogger(GamePane.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return combinar;
-    }
-    
-    public void scoreBoard() { //Sistema de puntos almacena en un documento de texto
-        //Los puntajes alcanzados
-        
-        //TODO falta implementar el score de GamePane para que lea los puntajes
-        PrintWriter data;
-        int score = 0;
-        if (archivo.exists()) {
-            try {
-                FileWriter scoreBoard = new FileWriter(archivo, true);
-                data = new PrintWriter(scoreBoard);
-                data.print(String.valueOf(score));
-                data.close();
-                scoreBoard.close();
-            } catch (Exception ex) {
-                System.err.println("Error, " + ex);
-            }
-
-        } else {
-            System.err.println("Error,el archivo no existe!");
-        }
-    }
 
 
     @Override
     public void keyTyped(KeyEvent e) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        // TODO Auto-generated method stub
-        
     }
 
     @Override

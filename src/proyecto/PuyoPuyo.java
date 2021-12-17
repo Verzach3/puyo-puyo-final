@@ -1,13 +1,10 @@
 
 package proyecto;
 
-import proyecto.GameComponents.BarComponent;
-import proyecto.GameComponents.MainMenuComponent;
 
 import javax.swing.*;
+import proyecto.AddedScreens.MainMenu;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -17,11 +14,12 @@ import java.awt.event.WindowEvent;
  */
 public class PuyoPuyo extends PuyoEngine
 {
-    GamePane gp;			
+    public GamePane gp;			
     int width,height;
     int rows,cols;
     int puyo_len;			
-    Dimension screenSize;                           
+    Dimension screenSize;
+    MainMenu mainMenu;                         
     public PuyoPuyo()
     {
         this.setTitle("Puyo_Puyo");
@@ -31,12 +29,15 @@ public class PuyoPuyo extends PuyoEngine
         width=1250;
         height=730;
         puyo_len=(width/8)*2/cols;
-        gp=new GamePane(puyo_len,rows,cols);
+        gp=new GamePane(puyo_len,rows,cols, this);
+        mainMenu = new MainMenu(this);
         add(gp);
-        setResizable(true);
+        add(mainMenu);
+        setResizable(false);
         setBounds ((width/8)*3-puyo_len*3/2,(height/6)*1-puyo_len,(width/8)*2+puyo_len*3+6,(height/6)*4+25+puyo_len);
-        //gp.setFocusable(false);
-        //gp.setVisible(false);
+        mainMenu.setFocusable(true);
+        gp.setVisible(false);
+        mainMenu.setVisible(true);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(484, 714);
@@ -48,10 +49,10 @@ public class PuyoPuyo extends PuyoEngine
     }
 
 
-
     public void update(){
 
     }
+
 
     public static void main(String args[]) {
         System.out.println("INICIANDO PUYO PUYO......");
