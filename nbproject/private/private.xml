@@ -2,14 +2,13 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group name="Group 20211129-10:47:00">
-            <file>file:/C:/Users/Kahyberth/Documents/Programacion/Proyecto/puyo-puyo-final/src/proyecto/Node.java</file>
-            <file>file:/C:/Users/Kahyberth/Documents/Programacion/Proyecto/puyo-puyo-final/src/proyecto/PuyoPuyo.java</file>
-            <file>file:/C:/Users/Kahyberth/Documents/Programacion/Proyecto/puyo-puyo-final/src/proyecto/GamePane.java</file>
-            <file>file:/C:/Users/Kahyberth/Documents/Programacion/Proyecto/puyo-puyo-final/src/proyecto/PuyoEngine.java</file>
-        </group>
         <group>
             <file>file:/C:/Users/Juank/Documents/NetBeansProjects/puyo-puyo-final/src/proyecto/AddedScreens/MainMenu.java</file>
+        </group>
+        <group name="Group 20211129-10:47:00">
+            <file>file:/C:/Users/Kahyberth/Documents/Programacion/Proyecto/puyo-puyo-final/src/proyecto/AddedScreens/SavesMenu.java</file>
+            <file>file:/C:/Users/Kahyberth/Documents/Programacion/Proyecto/puyo-puyo-final/src/proyecto/GamePane.java</file>
+            <file>file:/C:/Users/Kahyberth/Documents/Programacion/Proyecto/puyo-puyo-final/src/proyecto/AddedScreens/PausedScreen.java</file>
         </group>
     </open-files>
 </project-private>

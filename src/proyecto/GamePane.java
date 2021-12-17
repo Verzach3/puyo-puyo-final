@@ -121,6 +121,9 @@ public class GamePane extends JPanel implements ActionListener {
                 if (e.getKeyCode() == KeyEvent.VK_S) {
                     speed(false);
                 }
+                if(e.getKeyCode()==KeyEvent.VK_N){
+                    power();
+                }
 
                 if (e.getKeyCode() == KeyEvent.VK_B) {
                     removePuyosRandomly();
@@ -238,6 +241,30 @@ public class GamePane extends JPanel implements ActionListener {
         Node n = tetris;
         while (n != null) {
             scr[n.getX()][random] = 0; // Recibe un numero random de 0 a 5, para eliminar esa columna seleccionada
+            n = n.getPrev();
+        }
+    }
+    
+    public void power(){
+        int flag = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (scr[i][j] > 0) {
+                    count = 3;
+                    tetris = new Node(i, j);
+                    if(count >= 3){
+                         powerDelete();
+                    }   
+                }
+            }
+        }   
+    }
+
+    //Power
+    public void powerDelete() {
+        Node n = tetris;
+        while (n != null) {
+            scr[n.getX()][n.getY()] = 1;
             n = n.getPrev();
         }
     }
