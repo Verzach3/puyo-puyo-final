@@ -192,18 +192,25 @@ public class GamePane extends JPanel implements ActionListener {
         fpipe = tk.getImage("images\\pipe" + s + "1.png");
         bpipe = tk.getImage("images\\pipe" + s + ".png");
     }
-
+    
+    //Fix Puyos speed
     public void speed(Boolean v) {
 
+        int delay = 0, delay1 = 0;
+
         if (v) {
-            customDelay += 100;
+            speedCounter++;
         } else {
 
-            customDelay -= 100;
+            speedCounter--;
         }
-        timer.setDelay(customDelay);
-        timer.restart();
-
+        for (int i = 0; i <= speedCounter; i++) {
+            delay += 20 * (4 - i / 5);
+            delay1 += 4 - i / 5;
+        }
+        timer.setDelay(1075 - delay);
+        anim_timer.setDelay(52 - delay1);
+        anim_timer.restart();
     }
 
     // Este metodo se encarga de eliminar los puyos aleatoriamente de una columna
