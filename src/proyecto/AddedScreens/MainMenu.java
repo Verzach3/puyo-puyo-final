@@ -58,6 +58,7 @@ public class MainMenu extends JPanel implements KeyListener{
         loadButton.setLocation(55,409);
         loadButton.setSize(358, 53);
         loadButton.addActionListener(e -> {
+            puyoInstance.savesMenu.updateSaves();
             puyoInstance.mainMenu.setVisible(false);
             puyoInstance.savesMenu.setVisible(true);
             puyoInstance.savesMenu.setFocusable(true);

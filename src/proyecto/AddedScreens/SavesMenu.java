@@ -20,28 +20,19 @@ public class SavesMenu extends JPanel implements KeyListener {
     JButton loadButton;
     JButton exitButton;
     PuyoPuyo puyoInstance;
+    //SavesList
+    JScrollPane scrollPane = new JScrollPane();
 
     public SavesMenu(PuyoPuyo puyoInstance){
         this.puyoInstance = puyoInstance;
         setSize(468, 675);
         setLayout(null);
-
-        //SavesList
-        JList savesList = new JList<>();
-        JScrollPane scrollPane = new JScrollPane();
+        savesList = new JList<>();
+        updateSaves();
 
 
-        savesList.setFont(new java.awt.Font("Segoe UI", 0, 18));
 
-        scrollPane.setSize(358, 469);
-        scrollPane.setLocation(55, 43);
-        DefaultListModel savesModel = new DefaultListModel();
-        puyoInstance.refreshSaves();
-        for (Save save : puyoInstance.saves){
-            savesModel.addElement(save.getName());
-        }
-        savesList.setModel(savesModel);
-        scrollPane.setViewportView(savesList);
+
 
         //LoadButton
         loadButton = new JButton();
@@ -84,6 +75,20 @@ public class SavesMenu extends JPanel implements KeyListener {
         addKeyListener(this);
 
 
+    }
+
+    public void updateSaves(){
+        savesList.setFont(new java.awt.Font("Segoe UI", 0, 18));
+
+        scrollPane.setSize(358, 469);
+        scrollPane.setLocation(55, 43);
+        DefaultListModel savesModel = new DefaultListModel();
+        puyoInstance.refreshSaves();
+        for (Save save : puyoInstance.saves){
+            savesModel.addElement(save.getName());
+        }
+        savesList.setModel(savesModel);
+        scrollPane.setViewportView(savesList);
     }
 
     @Override
