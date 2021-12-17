@@ -1,24 +1,77 @@
 package proyecto.AddedScreens;
 
+import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import proyecto.PuyoPuyo;
+import proyecto.Utils.ImageLoader;
 import proyecto.Utils.ScoreBoardUtil;
 import proyecto.Utils.ScoreRecord;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
 public class MainMenu extends JPanel implements KeyListener{
 
-    PuyoPuyo puyoInstance; 
+    PuyoPuyo puyoInstance;
+    ImageLoader imageLoader = new ImageLoader(); 
+    JButton startButtton;
+    JButton loadButton;
+    JButton scoreButton;
+    JButton exitButton;
     public MainMenu(PuyoPuyo puyoInstance){
+        setSize(468, 675);
+        setLayout(null);
         this.puyoInstance = puyoInstance;
         this.addKeyListener(this);
+
+        //StartButton
+        startButtton = new JButton();
+        startButtton.setText("Empezar");
+        startButtton.setLocation(55,332);
+        startButtton.setSize(358, 53);
+        startButtton.addActionListener(e -> puyoInstance.gp.newGame());
+        add(startButtton);
+
+        //LoadButton
+        loadButton = new JButton();
+        loadButton.setText("Cargar");
+        loadButton.setLocation(55,409);
+        loadButton.setSize(358, 53);
+        loadButton.addActionListener(e -> {
+            puyoInstance.mainMenu.setVisible(false);
+            puyoInstance.savesMenu.setVisible(true);
+            puyoInstance.savesMenu.setFocusable(true);
+            puyoInstance.savesMenu.requestFocus();
+        });
+        add(loadButton);
+
+        //ScoreButton
+        scoreButton = new JButton();
+        scoreButton.setText("Puntajes");
+        scoreButton.setLocation(55,486);
+        scoreButton.setSize(358, 53);
+        add(scoreButton);
+        //ExitButton
+        exitButton = new JButton();
+        exitButton.setText("Salir");
+        exitButton.setLocation(55,563);
+        exitButton.setSize(358, 53);
+        add(exitButton);
+
+
+
+
+
     }
 
 
-    public void paintComponent(){
+    Image UIEmpezar = imageLoader.loadImage("/proyecto/Resources/UIEmpezar.gif");
 
-    }
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -27,10 +80,6 @@ public class MainMenu extends JPanel implements KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if(e.getKeyCode() == KeyEvent.VK_A){
-            puyoInstance.gp.newGame();
-            System.out.println("Holaaa");
-        }  
         
         if(e.getKeyCode() == KeyEvent.VK_1){
             ScoreBoardUtil scoreBoardUtil = new ScoreBoardUtil();
@@ -39,6 +88,10 @@ public class MainMenu extends JPanel implements KeyListener{
         if(e.getKeyCode() == KeyEvent.VK_2){
             ScoreBoardUtil scoreBoardUtil = new ScoreBoardUtil();
             scoreBoardUtil.createScore(new ScoreRecord("Setchkooo", 999));;
+        }
+        if(e.getKeyCode() == KeyEvent.VK_3){
+            ScoreBoardUtil scoreBoardUtil = new ScoreBoardUtil();
+            scoreBoardUtil.getScores();
         }
         
     }

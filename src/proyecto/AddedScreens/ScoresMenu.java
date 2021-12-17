@@ -1,44 +1,21 @@
 package proyecto.AddedScreens;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import proyecto.PuyoPuyo;
 
 import javax.swing.*;
-
-import proyecto.PuyoPuyo;
-import proyecto.Utils.Save;
-import proyecto.Utils.SaveUtil;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 /**
  * SavesMenu
  */
-public class SavesMenu extends JPanel implements KeyListener {
+public class ScoresMenu extends JPanel implements KeyListener {
 
-    JList savesList;
-    JButton loadButton;
-    JButton exitButton;
     PuyoPuyo puyoInstance;
-
-    public SavesMenu(PuyoPuyo puyoInstance){
+    public ScoresMenu(PuyoPuyo puyoInstance){
         this.puyoInstance = puyoInstance;
         setSize(468, 675);
-        setLayout(null);
-
-        //SavesList
-        JList savesList = new JList<>();
-        savesList.setSize(358, 469);
-        savesList.setLocation(55, 43);
-        DefaultListModel savesModel = new DefaultListModel();
-        puyoInstance.refreshSaves();
-        for (Save save : puyoInstance.saves){
-            savesModel.addElement(save.getName());
-        }
-        savesList.setModel(savesModel);
-
-        add(savesList);
-        setSize(468, 675);
         addKeyListener(this);
-
 
     }
 

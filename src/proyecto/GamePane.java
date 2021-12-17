@@ -10,8 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Random;
@@ -84,6 +82,30 @@ public class GamePane extends JPanel implements ActionListener {
         generatePuyos(); // to start the generating puyos
         addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
+
+                if (e.getKeyCode() == KeyEvent.VK_T) {
+                    try {
+                        SaveUtil saveUtil = new SaveUtil();
+                        saveUtil.saveGame(scr, "saveName");
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+
+                if (e.getKeyCode() == KeyEvent.VK_Y) {
+                    try {
+                        SaveUtil saveUtil = new SaveUtil();
+                        saveUtil.readGame("1639677637640", scr);
+                        System.out.println(scr.length + "kk:" + scr[0].length);
+                    } catch (FileNotFoundException e1) { 
+                        e1.printStackTrace();
+                    }
+                }
+                
+                if(e.getKeyCode() == KeyEvent.VK_1){
+                    SaveUtil saveUtil = new SaveUtil();
+                    saveUtil.getSaves();
+                }
 
                 if (e.getKeyCode() == KeyEvent.VK_J) {
 
@@ -229,7 +251,6 @@ public class GamePane extends JPanel implements ActionListener {
         timer2 = new Timer(500, this);
         anim_timer = new Timer(50, this);
         anim_timer.start(); // starting the timer
-        customInputs();
     }
 
     public void loadImages()// loading images into the image array and pipe objects
@@ -765,7 +786,7 @@ public class GamePane extends JPanel implements ActionListener {
 
         if (started) {
             g2.drawImage(background, 0, 0, null);
-            g2.drawImage(imageBackground, 0, 110, null);
+            g2.drawImage(imageBackground, 0, 53, null);
             g2.setColor(Color.black);
             //g2.fillRect(len * cols, 0, len * 3, len * rows);// Score board is filled with black color
 
@@ -793,7 +814,7 @@ public class GamePane extends JPanel implements ActionListener {
             // Font for the text to be display
             g2.setFont(new Font("Ariel", Font.PLAIN, len / 3));
             g2.drawString("Level: " + level, ((cols) * len + len / 2) + 30, rows * len / 2 + len);
-            g2.drawString("pieces: " + pieces, ((cols) * len + len / 2) + 30, (rows * len / 2 + 2 * len) + 5);
+            g2.drawString("Pieces: " + pieces, ((cols) * len + len / 2) + 30, (rows * len / 2 + 2 * len) + 5);
             g2.drawString("Score:" + score, ((cols) * len + len / 2) + 30, (rows * len / 2 + 3 * len) + 10);
             g2.setPaint(Color.black);
             // back part of pipe is drawn as image
@@ -812,10 +833,10 @@ public class GamePane extends JPanel implements ActionListener {
                         if (k % 2 == 0)// if puyo value is even then simply display it
                         {
                             k = (int) k / 2;
-                            g2.drawImage(img[k - 1], j * len, (i * len) - 6, len, len, null);
+                            g2.drawImage(img[k - 1], (j * len) + 13, (i * len) - 60, len, len, null);
                         } else { // if puyo value is odd then add animation to it
                             k = (int) k / 2 + 1;
-                            g2.drawImage(img[k - 1], j * len, ((i - 1) * len + anim) - 6, len, len, null);
+                            g2.drawImage(img[k - 1], (j * len) + 13, ((i - 1) * len + anim) - 60, len, len, null);
                             anim += 2;
                             if (anim >= len) {
                                 anim = len;
@@ -855,46 +876,6 @@ public class GamePane extends JPanel implements ActionListener {
         }
     }
 
-    public void customInputs() {
-        this.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                System.out.println("Height:" + getHeight() + "Width:" + getWidth());
-            }
 
-            @Override
-            public void keyPressed(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_T) {
-                    for (int i = 0; i < scr.length; i++) {
-                        for (int j = 0; j < scr[0].length; j++) {
-                            System.out.println(scr[i][j]);
-                        }
-
-                    }
-                    try {
-                        saveUtil.saveGame(scr, "saveName");
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                }
-
-                if (e.getKeyCode() == KeyEvent.VK_Y) {
-                    try {
-                        saveUtil.readGame("1639632068422", scr);
-                        System.out.println(scr.length + "kk:" + scr[0].length);
-                    } catch (FileNotFoundException e1) { 
-                        e1.printStackTrace();
-                    }
-                }
-            }
-        });
-    }
-
-    SaveUtil saveUtil = new SaveUtil();
 
 }
