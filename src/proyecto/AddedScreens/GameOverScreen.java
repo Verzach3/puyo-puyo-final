@@ -23,7 +23,6 @@ public class GameOverScreen extends JPanel{
 
         //NameInput
         JLabel infoLabel = new JLabel();
-
         infoLabel.setText("Ingresa Tu Nombre");
         infoLabel.setSize(163, 23);
         infoLabel.setFont(new java.awt.Font("Segoe UI", 0, 18));

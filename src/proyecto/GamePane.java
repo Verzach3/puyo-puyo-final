@@ -1,8 +1,6 @@
 package proyecto;
 
-import proyecto.GameComponents.*;
 import proyecto.Utils.ImageLoader;
-import proyecto.Utils.SaveUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,8 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Random;
 
 public class GamePane extends JPanel implements ActionListener {
@@ -678,8 +674,6 @@ public class GamePane extends JPanel implements ActionListener {
     }
 
 
-    BarComponent barComponent = new BarComponent();
-
     public void paintComponent(Graphics g) {
         g.setColor(Color.white); // Graphics principal, NO MOVER
         Graphics2D g2 = (Graphics2D) g;// Graphics2D principal, NO MOVER
@@ -780,11 +774,6 @@ public class GamePane extends JPanel implements ActionListener {
             // coming from the pipe
         }
 
-        if (!started)// if game is not started display the information and controls
-        {
-            // Paints the information
-            new NotStartedComponent(g2, alpha, alpha1, len, cols, rows, level);
-        }
         if (gameOver)// if game is over dim the game by using alpha composite and display the
                      // information
         {
@@ -792,13 +781,7 @@ public class GamePane extends JPanel implements ActionListener {
             puyoInstance.gameOverScreen.setVisible(true);
 
         }
-        if (paused)// if game is paused dim the game by using alpha composite and display the
-                   // information
-        {
-            // Paints the paused
-            new PausedComponent(g2, alpha, alpha1, len, cols, rows);
 
-        }
     }
 
 
