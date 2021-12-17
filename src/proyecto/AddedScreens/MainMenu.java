@@ -18,6 +18,7 @@ public class MainMenu extends JPanel implements KeyListener{
 
     PuyoPuyo puyoInstance;
     ImageLoader imageLoader = new ImageLoader(); 
+    JLabel headerLogo;
     JButton startButtton;
     JButton loadButton;
     JButton scoreButton;
@@ -27,6 +28,17 @@ public class MainMenu extends JPanel implements KeyListener{
         setLayout(null);
         this.puyoInstance = puyoInstance;
         this.addKeyListener(this);
+        
+        //HeaderLogo
+        headerLogo = new JLabel();
+        headerLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyecto/Resources/headerLogo.png")));
+        headerLogo.setLocation(125, 5);
+        headerLogo.setSize(300, 300);
+        
+        
+        
+        
+        add(headerLogo);
 
         //StartButton
         startButtton = new JButton();
