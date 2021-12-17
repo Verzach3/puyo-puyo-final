@@ -53,6 +53,7 @@ public class GamePane extends JPanel implements ActionListener {
     int posicion = 0;
     Sound musicaNivel;
     PuyoPuyo puyoInstance;
+    int customDelay = 1000;
 
     public void newGame(){
         setVisible(true);
@@ -88,58 +89,10 @@ public class GamePane extends JPanel implements ActionListener {
             public void keyPressed(KeyEvent e) {
 
                 if (e.getKeyCode() == KeyEvent.VK_S) {
-                    timer.stop();
-                    try {
-                        SaveUtil saveUtil = new SaveUtil();
-                        String saveName = JOptionPane.showInputDialog("Ingrese el nombre de el guardado");
-                        if(saveName != null){
-                            saveUtil.saveGame(scr, saveName);
-                        }
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-
 
                 }
 
-                if (e.getKeyCode() == KeyEvent.VK_Y) {
-                    try {
-                        SaveUtil saveUtil = new SaveUtil();
-                        saveUtil.readGameFromFile("1639677637640", scr);
-                        System.out.println(scr.length + "kk:" + scr[0].length);
-                    } catch (FileNotFoundException e1) { 
-                        e1.printStackTrace();
-                    }
-                }
-                
-                if(e.getKeyCode() == KeyEvent.VK_1){
-                    SaveUtil saveUtil = new SaveUtil();
-                    saveUtil.getSaves();
-                }
-
-
-                if (e.getKeyCode() == KeyEvent.VK_N){
-                    if (timer.isRunning()) {
-                        timer.stop();
-                    } else {
-                        timer.start();
-                    }
-                }
-
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    // if game is not started then start the game by starting timer when enter is
-                    // pressed
-                    // ig game is over then initialize the variables and start generating puyos also
-
-
-
-                    if (paused) {
-                        init();
-                        generatePuyos();
-                        started = false;
-                    }
-                    repaint();
-                } else if (e.getKeyCode() == KeyEvent.VK_LEFT && !reached && !paused)// move puyos left if each puyo not
+                if (e.getKeyCode() == KeyEvent.VK_LEFT && !reached && !paused)// move puyos left if each puyo not
                                                                                      // reached to ground
                 {
                     moveLeft();
@@ -162,34 +115,23 @@ public class GamePane extends JPanel implements ActionListener {
                     {
                         level--;
                     }
-                } else if (e.getKeyCode() == KeyEvent.VK_P && started && !gameOver) {
-                    // if game is already paused then resume it, other wise pause the game
-                    if (paused) {
-
-                        paused = false;
-                        alpha1 = 0.0f;
-                        timer.start(); // game is resumed
-                    } else {
-
-                        timer.stop();
-                        paused = true; // game is paused
-                    }
                 }
                 if (e.getKeyCode() == KeyEvent.VK_W) {
                     speed(true);
                 }
+                if (e.getKeyCode() == KeyEvent.VK_S) {
+                    speed(false);
+                }
 
                 if (e.getKeyCode() == KeyEvent.VK_B) {
                     removePuyosRandomly();
-                }
-                if (e.getKeyCode() == KeyEvent.VK_S) {
-                    speed(false);
                 }
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     timer.stop();
                     paused = true; // game is paused
                     setVisible(false);
                     puyoInstance.pausedScreen.setVisible(true);
+                    puyoInstance.pausedScreen.requestFocus();
                 }
             }
         });
@@ -222,7 +164,8 @@ public class GamePane extends JPanel implements ActionListener {
         levelflag = true;
         tk = Toolkit.getDefaultToolkit();
         rand = new Random();
-        timer = new Timer(1000, this); // generates action event for each 1075 milli seconds when timer is started
+        customDelay = 1000;
+        timer = new Timer(customDelay, this); // generates action event for each 1075 milli seconds when timer is started
         timer.setInitialDelay(0); // generates first event ofter 0 ms when timer starts
         timer1 = new Timer(1000, this);
         timer2 = new Timer(500, this);
@@ -251,21 +194,16 @@ public class GamePane extends JPanel implements ActionListener {
     }
 
     public void speed(Boolean v) {
-        int delay = 0, delay1 = 0;
 
         if (v) {
-            speedCounter++;
+            customDelay += 100;
         } else {
 
-            speedCounter--;
+            customDelay -= 100;
         }
-        for (int i = 0; i <= speedCounter; i++) {
-            delay += 20 * (4 - i / 5);
-            delay1 += 4 - i / 5;
-        }
-        timer.setDelay(1075 - delay);
-        anim_timer.setDelay(52 - delay1);
-        anim_timer.restart();
+        timer.setDelay(customDelay);
+        timer.restart();
+
     }
 
     // Este metodo se encarga de eliminar los puyos aleatoriamente de una columna
@@ -348,7 +286,7 @@ public class GamePane extends JPanel implements ActionListener {
             delay += 25;
             delay1 += 1;
         }
-        timer.setDelay(1075 - delay);
+        timer.setDelay(customDelay - delay);
         anim_timer.setDelay(52 - delay1);
         anim_timer.restart();
     }

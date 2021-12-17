@@ -23,7 +23,9 @@ public class GameOverScreen extends JPanel{
 
         //NameInput
         JLabel infoLabel = new JLabel();
+
         infoLabel.setText("Ingresa Tu Nombre");
+        infoLabel.setSize(163, 23);
         infoLabel.setFont(new java.awt.Font("Segoe UI", 0, 18));
         infoLabel.setLocation(55, 244);
         JTextField nameField = new JTextField();
@@ -44,14 +46,14 @@ public class GameOverScreen extends JPanel{
             scoreBoardUtil.createScore(new ScoreRecord(nameField.getText(), puyoInstance.gp.points));
             puyoInstance.mainMenu.setVisible(true);
         });
-
-
-
         add(startButtton);
+
+
+
 
         //LoadButton
         loadButton = new JButton();
-        loadButton.setText("Salir");
+        loadButton.setText("Nuevo Juego");
         loadButton.setLocation(55,409);
         loadButton.setSize(358, 53);
         loadButton.addActionListener(e -> {
