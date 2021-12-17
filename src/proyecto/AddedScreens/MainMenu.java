@@ -1,11 +1,10 @@
 package proyecto.AddedScreens;
 
 import java.awt.Image;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 
-import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.*;
+
 import proyecto.PuyoPuyo;
 import proyecto.Utils.ImageLoader;
 import proyecto.Utils.ScoreBoardUtil;
@@ -31,10 +30,14 @@ public class MainMenu extends JPanel implements KeyListener{
 
         //StartButton
         startButtton = new JButton();
+        ImageIcon startButtonHoverImage = imageLoader.loadIcon("/proyecto/Resources/Empezar.gif");
         startButtton.setText("Empezar");
         startButtton.setLocation(55,332);
         startButtton.setSize(358, 53);
         startButtton.addActionListener(e -> puyoInstance.gp.newGame());
+
+
+
         add(startButtton);
 
         //LoadButton
@@ -55,12 +58,22 @@ public class MainMenu extends JPanel implements KeyListener{
         scoreButton.setText("Puntajes");
         scoreButton.setLocation(55,486);
         scoreButton.setSize(358, 53);
+        scoreButton.addActionListener(e -> {
+            puyoInstance.scoresMenu.update();
+            puyoInstance.mainMenu.setVisible(false);
+            puyoInstance.scoresMenu.setVisible(true);
+            puyoInstance.scoresMenu.setFocusable(true);
+            puyoInstance.scoresMenu.stopThread = false;
+            puyoInstance.scoresMenu.requestFocus();
+        });
         add(scoreButton);
+
         //ExitButton
         exitButton = new JButton();
         exitButton.setText("Salir");
         exitButton.setLocation(55,563);
         exitButton.setSize(358, 53);
+        exitButton.addActionListener(e -> System.exit(0));
         add(exitButton);
 
 

@@ -17,11 +17,14 @@ import java.util.Random;
 public class GamePane extends JPanel implements ActionListener {
     
     ImageLoader imageLoader = new ImageLoader();
-    static int scr[][]; // scr or(screen) array holds the information about puyos to display
+    public static int[][] scr; // scr or(screen) array holds the information about puyos to display
     static int rows, cols;
     int currentMenu = 0;
     Node tetris; // Formation of Tetris is checked using this object
-    Timer timer, timer1, timer2, anim_timer; // different timers used for animation of puyos
+    public Timer timer;
+    Timer timer1;
+    Timer timer2;
+    Timer anim_timer; // different timers used for animation of puyos
     Image img[] = new Image[4]; // holds 4 puyo images
     Image fpipe, bpipe; // holds the front and back part of pipe image
     Image background = imageLoader.loadImage("/proyecto/Resources/Background.png");
@@ -35,8 +38,9 @@ public class GamePane extends JPanel implements ActionListener {
     int len; // length of the puyo ie. width and height
     boolean reached; // generated puyo reached the bottom or in movement
     int count; // count of puyos when formed tetris to delete
-    boolean started; // Game is started or not
-    boolean gameOver, paused;
+    public boolean started; // Game is started or not
+    boolean gameOver;
+    public boolean paused;
     int a, b; // The two puyos generate to be next are stored in a and b
     int level, score, pieces, removed_puyos;// pieces is number of joint puyos(single piece) generated
     // number of removed puyos by forming tetris
@@ -45,7 +49,7 @@ public class GamePane extends JPanel implements ActionListener {
     float alpha, alpha1;
     boolean levelflag;
     int speedCounter = 0;
-    int puntos = 0;
+    public int points = 0;
     int posicion = 0;
     Sound musicaNivel;
     PuyoPuyo puyoInstance;
@@ -83,19 +87,25 @@ public class GamePane extends JPanel implements ActionListener {
         addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
 
-                if (e.getKeyCode() == KeyEvent.VK_T) {
+                if (e.getKeyCode() == KeyEvent.VK_S) {
+                    timer.stop();
                     try {
                         SaveUtil saveUtil = new SaveUtil();
-                        saveUtil.saveGame(scr, "saveName");
+                        String saveName = JOptionPane.showInputDialog("Ingrese el nombre de el guardado");
+                        if(saveName != null){
+                            saveUtil.saveGame(scr, saveName);
+                        }
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
+
+
                 }
 
                 if (e.getKeyCode() == KeyEvent.VK_Y) {
                     try {
                         SaveUtil saveUtil = new SaveUtil();
-                        saveUtil.readGame("1639677637640", scr);
+                        saveUtil.readGameFromFile("1639677637640", scr);
                         System.out.println(scr.length + "kk:" + scr[0].length);
                     } catch (FileNotFoundException e1) { 
                         e1.printStackTrace();
@@ -107,14 +117,6 @@ public class GamePane extends JPanel implements ActionListener {
                     saveUtil.getSaves();
                 }
 
-                if (e.getKeyCode() == KeyEvent.VK_J) {
-
-                    init();
-                    generatePuyos();
-                    setDelays();
-                    timer.start();
-                    started = true;
-                }
 
                 if (e.getKeyCode() == KeyEvent.VK_N){
                     if (timer.isRunning()) {
@@ -129,25 +131,8 @@ public class GamePane extends JPanel implements ActionListener {
                     // pressed
                     // ig game is over then initialize the variables and start generating puyos also
 
-                    /*
-                     * if (!started) {
-                     * // reproducirPorNivel();
-                     * // musicaNivel.play();
-                     * 
-                     * setDelays();
-                     * timer.start();
-                     * started = true;
-                     * }
-                     */
 
-                    if (gameOver) {
 
-                        // musicaNivel.stop();
-                        init();
-                        generatePuyos();
-
-                        started = false;
-                    }
                     if (paused) {
                         init();
                         generatePuyos();
@@ -157,7 +142,6 @@ public class GamePane extends JPanel implements ActionListener {
                 } else if (e.getKeyCode() == KeyEvent.VK_LEFT && !reached && !paused)// move puyos left if each puyo not
                                                                                      // reached to ground
                 {
-                    System.out.println("Left");
                     moveLeft();
                 } else if (e.getKeyCode() == KeyEvent.VK_RIGHT && !reached && !paused) {
 
@@ -200,19 +184,12 @@ public class GamePane extends JPanel implements ActionListener {
                 }
                 if (e.getKeyCode() == KeyEvent.VK_S) {
                     speed(false);
-                } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-
-                    // if game is already paused then exit the game, other wise pause the game
-                    if (started && !gameOver) {
-                        if (paused) {
-                            System.exit(0); // exit the game
-                        } else {
-                            timer.stop();
-                            paused = true; // game is paused
-                        }
-                    } else {
-                        System.exit(0);
-                    }
+                }
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    timer.stop();
+                    paused = true; // game is paused
+                    setVisible(false);
+                    puyoInstance.pausedScreen.setVisible(true);
                 }
             }
         });
@@ -863,8 +840,8 @@ public class GamePane extends JPanel implements ActionListener {
         if (gameOver)// if game is over dim the game by using alpha composite and display the
                      // information
         {
-            // Paints the game over
-            new GameOverComponent(g2, alpha, alpha1, len, cols, rows);
+            setVisible(false);
+            puyoInstance.gameOverScreen.setVisible(true);
 
         }
         if (paused)// if game is paused dim the game by using alpha composite and display the

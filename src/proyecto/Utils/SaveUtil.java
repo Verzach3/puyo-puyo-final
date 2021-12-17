@@ -50,7 +50,7 @@ public class SaveUtil {
 
     }
 
-    public void readGame(String saveName, int[][] currentGame) throws FileNotFoundException {
+    public void readGameFromFile(String saveName, int[][] currentGame) throws FileNotFoundException {
 
         this.saveName = saveName;
         this.currentGame = currentGame;
@@ -70,13 +70,23 @@ public class SaveUtil {
         System.out.println(currentGame.length + "  " + currentGame[0].length);
     }
 
+    public void readGame(int[][] loadedGame, int[][] currentGame){
+        this.currentGame = currentGame;
+        System.out.println(currentGame.length + "  " + currentGame[0].length);
+        for (int i = 0; i < currentGame.length; i++) {
+            for (int j = 0; j < currentGame[0].length; j++) {
+                currentGame[i][j] = loadedGame[i][j];
+            }
+        }
+    }
+
     public ArrayList<Save> getSaves() {
         File saveDir = new File("Saves//");
         File[] savesList = saveDir.listFiles();
         saves.clear();
         for (File file : savesList) {
             String saveName;
-            int[][] gameStatus = new int[12][6];
+            int[][] gameStatus = new int[13][6];
             File saveFile = new File("Saves//" + file.getName());
             try (Scanner reader = new Scanner(saveFile)) {
                 saveName = reader.nextLine();
