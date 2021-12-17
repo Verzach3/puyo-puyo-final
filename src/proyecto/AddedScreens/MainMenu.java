@@ -42,7 +42,6 @@ public class MainMenu extends JPanel implements KeyListener{
 
         //StartButton
         startButtton = new JButton();
-        ImageIcon startButtonHoverImage = imageLoader.loadIcon("/proyecto/Resources/Empezar.gif");
         startButtton.setText("Empezar");
         startButtton.setLocation(55,332);
         startButtton.setSize(358, 53);
@@ -94,9 +93,6 @@ public class MainMenu extends JPanel implements KeyListener{
 
 
     }
-
-
-    Image UIEmpezar = imageLoader.loadImage("/proyecto/Resources/UIEmpezar.gif");
 
 
     @Override
