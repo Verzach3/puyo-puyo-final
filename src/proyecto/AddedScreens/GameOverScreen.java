@@ -43,7 +43,7 @@ public class GameOverScreen extends JPanel{
         startButtton.setSize(358, 53);
         startButtton.addActionListener(e -> {
             setVisible(false);
-            scoreBoardUtil.createScore(new ScoreRecord(nameField.getText(), puyoInstance.gp.points));
+            scoreBoardUtil.createScore(new ScoreRecord(nameField.getText(), puyoInstance.gp.score));
             puyoInstance.mainMenu.setVisible(true);
         });
         add(startButtton);

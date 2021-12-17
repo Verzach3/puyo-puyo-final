@@ -42,7 +42,10 @@ public class GamePane extends JPanel implements ActionListener {
     boolean gameOver;
     public boolean paused;
     int a, b; // The two puyos generate to be next are stored in a and b
-    int level, score, pieces, removed_puyos;// pieces is number of joint puyos(single piece) generated
+    int level;
+    public int score;
+    int pieces;
+    int removed_puyos;// pieces is number of joint puyos(single piece) generated
     // number of removed puyos by forming tetris
     int minscore;
     int anim; // to build the pixel by pixel animation (movement of generated puyos)
